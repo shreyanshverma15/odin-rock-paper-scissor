@@ -12,9 +12,7 @@ function getHumanChoice()
     return humanChoice;
 }
 
-function playGame()
-{
-    let humanScore = 0;
+let humanScore = 0;
     let computerScore = 0;
 
     function playRound(humanChoice, computerChoice) 
@@ -65,7 +63,31 @@ function playGame()
         }
     }
 
-    for(let i = 0; i < 5; i++) playRound(getHumanChoice(), getComputerChoice());
+const winnerDisplay = document.querySelector("#winner");
+function checkForWinner() {
+    if(humanScore == 5) 
+    {
+        winnerDisplay.textContent = "Human is the winner! Game Over!";
+    }
+    else if(computerScore == 5)
+    {
+        winnerDisplay.textContent = "Computer is the winner! Game Over!";
+    }
 }
 
-playGame();
+const buttons = document.querySelectorAll("button");
+const humanScoreDisplay = document.querySelector("#human-score");
+const computerScoreDisplay = document.querySelector("#computer-score");
+
+buttons.forEach(button => {
+    button.addEventListener("click", function(e) {
+        if(e.target.id == "rock-btn") playRound("rock", getComputerChoice());
+        if(e.target.id == "paper-btn") playRound("paper", getComputerChoice());
+        if(e.target.id == "scissor-btn") playRound("scissor", getComputerChoice());
+
+        humanScoreDisplay.textContent = `Human Score :- ${humanScore}`;
+        computerScoreDisplay.textContent = `Computer Score :- ${computerScore}`;
+
+        checkForWinner();
+    });
+});
